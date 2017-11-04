@@ -6,13 +6,13 @@
 
 void MqttController::publish(const char* topic, const char* value) {
     if(this->mqttState == Connected) {
-        syslog.logf(LOG_INFO, "p: [%s] '%s'\n", value, topic);
-        this->client->publish(topic, value);
+        logger->logf(LOG_INFO, "p: [%s] '%s'\n", value, topic);
+        this->client->publish(topic.c_str(), value);
         yield();
         this->client->loop();
         yield();
     } else {
-        syslog.logf(LOG_INFO, "ig: [%s] '%s'\n", value, topic);
+        logger->logf(LOG_INFO, "ig: [%s] '%s'\n", value, topic);
     }
 }
 
@@ -25,10 +25,10 @@ void MqttController::subscribe(String &topic) {
 }
 void MqttController::subscribe(const char* topic) {
     if(this->mqttState == Connected) {
-        syslog.logf(LOG_INFO, "sub '%s'\n", topic);
-        this->client->subscribe(topic);
+        logger->logf(LOG_INFO, "sub '%s'\n", topic);
+        this->client->subscribe(topic.c_str());
     } else {
-        syslog.logf(LOG_INFO, "ignore '%s'\n", topic);
+        logger->logf(LOG_INFO, "ignore '%s'\n", topic);
 
     }
 }
@@ -41,7 +41,7 @@ void MqttController::getRandomClientId() {
     sprintf(espTopicId, "ESP_%06X", ESP.getChipId());
     sprintf(espClientId, "%s_%04X", espTopicId, random(0,65535));
     Serial.printf("CID:[%s]",espClientId);
-    syslog.logf(LOG_INFO, "CID:[%s]",espClientId);
+    logger->logf(LOG_INFO, "CID:[%s]",espClientId);
 }
 
 void MqttController::makePubSubClient() {
@@ -63,7 +63,7 @@ void MqttController::OnUpdate(uint32_t deltaTime) {
     if(this->client == NULL || this->mqttState == Disconnecting)
     {
         this->wifiClient.stop();
-        syslog.logf(LOG_WARNING, "To Mqtt Disconnected");
+        logger->logf(LOG_WARNING, "To Mqtt Disconnected");
         this->mqttState = Disconnected;
     }
 
@@ -76,7 +76,7 @@ void MqttController::OnUpdate(uint32_t deltaTime) {
     if(this->mqttState == Waiting) {
         if(millis() > this->timeWaitStarted + MQTT_CONNECT_WAIT)
         {
-            syslog.logf(LOG_WARNING, "To Mqtt Connecting...");
+            logger->logf(LOG_WARNING, "To Mqtt Connecting...");
             this->mqttState = Connecting;
 
         }
@@ -84,7 +84,7 @@ void MqttController::OnUpdate(uint32_t deltaTime) {
 
     if(this->mqttState == Connecting) {
         if(this->client->connect(espClientId)) {
-            syslog.logf(LOG_WARNING, "To Mqtt Connected...");
+            logger->logf(LOG_WARNING, "To Mqtt Connected...");
             this->mqttState = Connected;
 
             // ... and resubscribe
@@ -107,7 +107,7 @@ void MqttController::OnUpdate(uint32_t deltaTime) {
 }
 
 void MqttController::toWaiting() {
-    syslog.logf(LOG_WARNING, "To Mqtt Waiting...");
+    logger->logf(LOG_WARNING, "To Mqtt Waiting...");
     timeWaitStarted = millis();
     mqttState = Waiting;
 }

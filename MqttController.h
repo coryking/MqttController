@@ -27,7 +27,10 @@ class MqttController : public Task {
 public:
     typedef std::function<void(void)> ReconnectCallback;
 
-    MqttController(const char *mqttServer, uint16_t mqttPort) : mqttServer(mqttServer), mqttPort(mqttPort), Task(MsToTaskTime(100)) {
+    MqttController(const char *mqttServer, uint16_t mqttPort, Syslog* logger) : mqttServer(mqttServer),
+                                                                                mqttPort(mqttPort),
+                                                                                logger(logger),
+                                                                                Task(MsToTaskTime(100)) {
         getRandomClientId();
 
     }
@@ -45,7 +48,7 @@ protected:
     void subscript(const char* topic);
     virtual void setSubscriptions() = 0;
     virtual void mqttCallback(char* topic, byte* payload, unsigned int length) = 0;
-
+    const Syslog* logger;
 private:
     const char *mqttServer;
     const uint16_t mqttPort = 1883;
