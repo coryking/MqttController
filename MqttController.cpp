@@ -45,7 +45,7 @@ void MqttController::makePubSubClient() {
 
     client = new PubSubClient();
     client->setClient(wifiClient);
-    client->setServer(mqttServer.c_str(), mqttPort);
+    client->setServer(mqttServer, mqttPort);
     client->setCallback([this](char* topic, byte* payload, unsigned int length) {
         this->mqttCallback(topic,payload,length);
     });
