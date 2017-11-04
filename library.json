@@ -17,5 +17,5 @@
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "atmelavr,atmelsam,freescalekinetis,nordicnrf51,nxplpc,ststm32,teensy,esp8266,esp32",
-  "dependencies": ["PubSubClient", "Task"]
+  "dependencies": ["PubSubClient", "Task", "Syslog"]
 }
