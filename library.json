@@ -1,21 +1,21 @@
 {
-  name: "MqttController",
-  description: "MqttController is a wrapper around PubSubClient that handles reconnecting when a connection drops",
-  keywords: "mqtt,network,pubsubclient",
-  authors: [
+  "name": "MqttController",
+  "description": "MqttController is a wrapper around PubSubClient that handles reconnecting when a connection drops",
+  "keywords": "mqtt,network,pubsubclient",
+  "authors": [
     {
-      name: "Cory R. King",
-      url: "https://github.com/coryking",
-      maintainer: true
+      "name": "Cory R. King",
+      "url": "https://github.com/coryking",
+      "maintainer": true
     }
   ],
-  repository: {
-    type: "git",
-    url: "https://github.com/coryking/MqttController.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coryking/MqttController.git"
   },
-  version: "1.0.0",
-  license: "MIT",
-  frameworks: "arduino",
-  platforms: "atmelavr,atmelsam,freescalekinetis,nordicnrf51,nxplpc,ststm32,teensy,esp8266,esp32",
-  dependencies: ["PubSubClient", "Task"]
+  "version": "1.0.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "atmelavr,atmelsam,freescalekinetis,nordicnrf51,nxplpc,ststm32,teensy,esp8266,esp32",
+  "dependencies": ["PubSubClient", "Task"]
 }
