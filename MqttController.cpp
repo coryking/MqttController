@@ -7,7 +7,7 @@
 void MqttController::publish(const char* topic, const char* value) {
     if(this->mqttState == Connected) {
         logger->logf(LOG_INFO, "p: [%s] '%s'\n", value, topic);
-        this->client->publish(topic.c_str(), value);
+        this->client->publish(topic, value);
         yield();
         this->client->loop();
         yield();
@@ -26,7 +26,7 @@ void MqttController::subscribe(String &topic) {
 void MqttController::subscribe(const char* topic) {
     if(this->mqttState == Connected) {
         logger->logf(LOG_INFO, "sub '%s'\n", topic);
-        this->client->subscribe(topic.c_str());
+        this->client->subscribe(topic);
     } else {
         logger->logf(LOG_INFO, "ignore '%s'\n", topic);
 
