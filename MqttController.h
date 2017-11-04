@@ -5,6 +5,7 @@
 #ifndef MQTTCONTROLLER_MQTTCONTROLLER_H
 #define MQTTCONTROLLER_MQTTCONTROLLER_H
 
+#include <Arduino.h>
 #include <PubSubClient.h>
 #include <Task.h>
 #include <WiFiClient.h>
@@ -39,7 +40,9 @@ protected:
     PubSubClient *client;
     virtual void OnDoUpdate(uint32_t deltaTime) {};
     void publish(String &topic, const char* value);
+    void publish(const char* topic, const char* value);
     void subscribe(String& topic);
+    void subscript(const char* topic);
     virtual void setSubscriptions() = 0;
     virtual void mqttCallback(char* topic, byte* payload, unsigned int length) = 0;
 

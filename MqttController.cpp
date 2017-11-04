@@ -4,26 +4,31 @@
 
 #include "MqttController.h"
 
-
-void MqttController::publish(String &topic, const char* value) {
+void MqttController::publish(const char* topic, const char* value) {
     if(this->mqttState == Connected) {
-        syslog.logf(LOG_INFO, "p: [%s] '%s'\n", value, topic.c_str());
-        this->client->publish(topic.c_str(), value);
+        syslog.logf(LOG_INFO, "p: [%s] '%s'\n", value, topic);
+        this->client->publish(topic, value);
         yield();
         this->client->loop();
         yield();
     } else {
-        syslog.logf(LOG_INFO, "ig: [%s] '%s'\n", value, topic.c_str());
+        syslog.logf(LOG_INFO, "ig: [%s] '%s'\n", value, topic);
     }
-
 }
 
+void MqttController::publish(String &topic, const char* value) {
+    this->publish(topic.c_str(), value);
+
+}
 void MqttController::subscribe(String &topic) {
+    this->subscribe(topic.c_str());
+}
+void MqttController::subscribe(const char* topic) {
     if(this->mqttState == Connected) {
-        syslog.logf(LOG_INFO, "sub '%s'\n", topic.c_str());
-        this->client->subscribe(topic.c_str());
+        syslog.logf(LOG_INFO, "sub '%s'\n", topic);
+        this->client->subscribe(topic);
     } else {
-        syslog.logf(LOG_INFO, "ignore '%s'\n", topic.c_str());
+        syslog.logf(LOG_INFO, "ignore '%s'\n", topic);
 
     }
 }
